@@ -1,6 +1,6 @@
 ---
 title: "Activity 4"
-author: "Name"
+author: "Lucas Smielewski"
 output: github_document
 ---
 
@@ -33,7 +33,7 @@ Knit your report with the `message = FALSE` R code chunk option and pay attentio
 Now, switch this option to `message = TRUE` and knit your report again.
 Discuss what is different when the `message` option is turned on (`TRUE`) and turned off (`FALSE`) for the previous code chunk.
 
-**Response**:
+**Response**: The message = FALSE option makes is so the R console output log does not show up in the Rmd file.  
 
 
 Turn the `message` option off and continue in this activity.
@@ -69,6 +69,7 @@ I try to be consistent with notation so here are some other forms that you might
 # function comes from.
 
 college_recent_grads <- readr::read_csv("data/recent-grads.csv")
+#college_recent_grads <- read.csv("data/recent-grads.csv")
 
 college_recent_grads
 
@@ -82,7 +83,7 @@ You can view the entire dataset by clicking on the name of the data frame in the
 
 Explore and describe what the `message` option does in `load_data` code chunk.
 
-**Response**:
+**Response**: It shows the R console output called column specification.
 
 
 Turn the `message` option off and continue in this activity.
@@ -162,7 +163,7 @@ Describe how you would go about answering this question using a different softwa
 You do not need to code anything.
 As you write this process, think of it as a series of steps and it might be helpful to start at the goal and work backwards.
 
-**Response**:
+**Response**: All you would need to do is sort the variable unemployment rate in a ascending order. 
 
 
 #### Using `{dplyr}`
@@ -171,7 +172,9 @@ In the R code chunk below, name it `rearrange_college`.
 
 Take the `college_recent_grads` dataset, *then* `arrange` the dataset by `unemployment_rate`.
 
-```{r}
+```{r rearrange_college}
+college_recent_grads %>% 
+  arrange(unemployment_rate)
 
 ```
 
@@ -184,8 +187,10 @@ Also, notice that by default when you *arrange* by a variable, it defaults to *a
 Use the pipeline that you made in the `rearrange_college` code chunk as the start to this solution, **then** `select` only the variables `rank`, `major`, and `unemployment_rate`.
 Name this code chunk `lowest_unemploy`.
 
-```{r}
-
+```{r lowest_unemploy}
+college_recent_grads %>% 
+  arrange(unemployment_rate) %>% 
+  select(rank, major, unemployment_rate)
 ```
 
 **Response**:
@@ -198,13 +203,15 @@ Name this code chunk `lowest_unemploy`.
 Using the `college_recent_grads` dataset and functions from `{dplyr}`, `arrange` the dataset by `sharewomen`, and `select` only `rank`, `major`, and `sharewomen`. 
 Name your code chunk `highest_prop_women`.
 
-```{r}
-
+```{r highest_prop_women}
+college_recent_grads %>% 
+  arrange(desc(sharewomen)) %>% 
+  select(rank, major, sharewomen)
 ```
 
 Discuss your output as it relates to the research question.
 
-**Response**:
+**Response**: Early Childhood Education
 
 
 ![](README-img/noun_pause.png) **Planned Pause Point**: If you have any questions, contact your instructor. Otherwise feel free to continue on.
@@ -229,13 +236,15 @@ Using the `stem_categories` vector and knowledge that the median salary for all 
 Only display the variables `major`, `p25th`, `median`, and `p75th`
 Name the code chunk `stem_low_salaries`.
 
-```{r}
-
+```{r stem_low_salaries}
+college_recent_grads %>% 
+  filter(median<36000, major_category %in% stem_categories) %>% 
+  select(major, p25th, median, p75th)
 ```
 
 Discuss your output as it relates to the research question.
 
-**Response**:
+**Response**: There are only 10 stem majors with a median salary less than $36,000 and most of them are in the science field. 
 
 
 ![](README-img/noun_pause.png) **(Final) Planned Pause Point**: If you have any questions, contact your instructor. Otherwise feel free to continue on.
